@@ -47,13 +47,13 @@ Vagrant.configure(2) do |config|
                             :ip => "192.168.33.10"
 
     #A list of valid versions can be found at: http://docs.puppetlabs.com/release_notes/
-    canivete_config.puppet_install.puppet_version = "3.8.7"
+    canivete_config.puppet_install.puppet_version = "3.8.5"
     canivete_config.vm.provision "puppet" do |puppet|
       puppet.manifest_file = "init.pp"
     end
       canivete_config.vm.provider "virtualbox" do |v|
         # Linked clones are based on a master VM
-        #v.linked_clone = true
+        v.linked_clone = true
         # Customize the amount of memory on the VM:
         v.memory = "256"
         v.cpus = 2
