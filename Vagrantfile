@@ -12,25 +12,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  # puppetlabs/ubuntu-14.04-64-nocm - sem puppet
-  # puppetlabs/centos-7.0-64-puppet - puppet 4.2
-  # puppetlabs/centos-6.6-64-nocm
-  # puppetlabs/centos-7.0-64-nocm - sem puppet
-  config.vm.box = "puppetlabs/centos-6.6-64-nocm"
-  # pastas que podem ser sincronizadas.
-  #config.vm.synced_folder "/Users/daniel/repositorios/vagrant/" , disabled: true
 
-  # especificando a versão do puppet de todas as VM
-  config.puppet_install.puppet_version = "3.8.7"
-
-  # Configurações genéricas do provedor virtualbox
-  #config.vm.provider "virtualbox" do |v|
-    # Linked clones are based on a master VM
-  #  v.linked_clone = true
-    # Customize the amount of memory on the VM:
-  #  v.memory = "256"
-#    v.cpus = 2
-#  end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -41,8 +23,9 @@ Vagrant.configure(2) do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
 
-    config.vm.define :canivete do |canivete_config|
-      canivete_config.vm.hostname = "canivete.devops.br"
+    config.vm.define :canivete_centos do |canivete_config|
+      canivete_config.vm.box = "puppetlabs/centos-6.6-64-nocm"
+      canivete_config.vm.hostname = "canivete-centos.devops.br"
       canivete_config.vm.network  :private_network,
                             :ip => "192.168.33.10"
 
@@ -53,7 +36,26 @@ Vagrant.configure(2) do |config|
     end
       canivete_config.vm.provider "virtualbox" do |v|
         # Linked clones are based on a master VM
-        v.linked_clone = true
+        v.linked_clone = false
+        # Customize the amount of memory on the VM:
+        v.memory = "256"
+        v.cpus = 2
+      end
+    end
+    config.vm.define :canivete_ubuntu do |canivete_config|
+      canivete_config.vm.box = "puppetlabs/ubuntu-12.04-64-nocm"
+      canivete_config.vm.hostname = "canivete-ubuntu.devops.br"
+      canivete_config.vm.network  :private_network,
+                            :ip => "192.168.33.11"
+
+    #A list of valid versions can be found at: http://docs.puppetlabs.com/release_notes/
+    canivete_config.puppet_install.puppet_version = "3.8.5"
+    canivete_config.vm.provision "puppet" do |puppet|
+      puppet.manifest_file = "init.pp"
+    end
+      canivete_config.vm.provider "virtualbox" do |v|
+        # Linked clones are based on a master VM
+        v.linked_clone = false
         # Customize the amount of memory on the VM:
         v.memory = "256"
         v.cpus = 2
