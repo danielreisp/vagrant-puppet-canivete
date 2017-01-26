@@ -30,7 +30,7 @@ Vagrant.configure(2) do |config|
 
 
     config.vm.define :canivete_ubuntu do |canivete_config|
-      canivete_config.vm.box = "puppetlabs/ubuntu-12.04-64-nocm"
+      canivete_config.vm.box = "puppetlabs/ubuntu-16.04-64-nocm"
       canivete_config.vm.hostname = "canivete-ubuntu"
       canivete_config.vm.network  :private_network,
                             :ip => "192.168.33.11"
