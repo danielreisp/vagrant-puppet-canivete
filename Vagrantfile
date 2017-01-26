@@ -9,11 +9,13 @@ Vagrant.configure(2) do |config|
       canivete_config.vm.hostname = "canivete-centos"
       canivete_config.vm.network  :private_network,
                                   :ip => "192.168.33.10"
-      canivete_config.puppet_install.puppet_version = "3.8.5"
-
-      canivete_config.vm.provision "puppet" do |puppet|
-        puppet.manifest_file = "init.pp"
-      end
+      #A list of valid versions can be found at: http://docs.puppetlabs.com/release_notes/
+      canivete_config.puppet_install.puppet_version = "4.8.2"
+      
+     config.vm.provision "puppet" do |puppet|
+        puppet.environment_path = "environments"
+        puppet.environment = "development"
+    end
 
       canivete_config.vm.provider "virtualbox" do |v|
         # Linked clones are based on a master VM
@@ -34,9 +36,11 @@ Vagrant.configure(2) do |config|
                             :ip => "192.168.33.11"
 
     #A list of valid versions can be found at: http://docs.puppetlabs.com/release_notes/
-    canivete_config.puppet_install.puppet_version = "3.8.5"
-    canivete_config.vm.provision "puppet" do |puppet|
-      puppet.manifest_file = "init.pp"
+      canivete_config.puppet_install.puppet_version = "4.8.2"
+      
+     config.vm.provision "puppet" do |puppet|
+        puppet.environment_path = "environments"
+        puppet.environment = "development"
     end
       canivete_config.vm.provider "virtualbox" do |v|
         # Linked clones are based on a master VM
